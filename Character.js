@@ -8,9 +8,11 @@ class Character {
 		this.vx = vx;
 		this.vy = vy;
 		this.kill = false;
+		this.count = 0;
 	}
 
 	update() {
+		this.count++;
 		this.x += this.vx;
 		this.y += this.vy;
 

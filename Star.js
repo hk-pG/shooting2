@@ -19,7 +19,7 @@ class Star {
 			y >= camera_y + screen_h
 		)
 			return;
-		vctx.fillStyle = rand(0, 2) != 0 ? "#66f" : "#8af";
+		vctx.fillStyle = rand(0, 2) != 0 ? "#66f" : "#aef";
 		vctx.fillRect(this.x >> 8, this.y >> 8, this.sz, this.sz);
 	}
 
