@@ -1,25 +1,30 @@
-'use strict';
+"use strict";
 
 class Character {
-    constructor(snum, x, y, vx, vy) {
-        this.snum = snum;
-        this.x = x;
-        this.y = y;
-        this.vx = vx;
-        this.vy = vy;
-        this.kill = false;
-    }
+	constructor(snum, x, y, vx, vy) {
+		this.snum = snum;
+		this.x = x;
+		this.y = y;
+		this.vx = vx;
+		this.vy = vy;
+		this.kill = false;
+	}
 
-    update() {
-        this.x += this.vx;
-        this.y += this.vy;
+	update() {
+		this.x += this.vx;
+		this.y += this.vy;
 
-        if (this.x < 0 || this.x > field_w << 8 || this.y < 0 || this.y > field_h << 8) {
-            this.kill = true;
-        }
-    }
+		if (
+			this.x < 0 ||
+			this.x > field_w << 8 ||
+			this.y < 0 ||
+			this.y > field_h << 8
+		) {
+			this.kill = true;
+		}
+	}
 
-    draw() {
-        drawSprite(this.snum, this.x, this.y);
-    }
+	draw() {
+		drawSprite(this.snum, this.x, this.y);
+	}
 }
