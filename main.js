@@ -1,6 +1,9 @@
-//デバッグ用のフラグ
 const info = true;
+const debug = false;
 
+if (debug) {
+	console.log("ready OK");
+}
 //スムージング
 const SMOOOTHING = false;
 
@@ -8,8 +11,8 @@ let drawCount = 0;
 let fps = 0;
 let lastTime = Date.now();
 //画面サイズ
-const screen_w = 320;
-const screen_h = 450;
+const screen_w = 360;
+const screen_h = 500;
 
 //キャンバスのサイズ
 const canvas_w = screen_w * 2;
@@ -20,6 +23,7 @@ const field_w = screen_w + 120;
 const field_h = screen_h + 120;
 
 //キャンバス
+const body = document.querySelector("body");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = canvas_w;
@@ -90,7 +94,13 @@ const gameInit = () => {
 	const gameLoop = () => {
 		if (rand(0, 30) === 1) {
 			enemy.push(
-				new Enemy(rand(0, 1), rand(0, field_w) << 8, 0, 0, rand(300, 1200))
+				new Enemy(
+					rand(0, 2),
+					rand(0, field_w) << 8,
+					0,
+					0,
+					rand(300, 1200)
+				)
 			);
 		}
 		updateAll();
@@ -103,5 +113,8 @@ const gameInit = () => {
 
 //オンロード時にゲームを開始
 window.onload = function () {
+	alert("矢印キーで移動、");
+	alert("スペースで射撃だ！");
+	alert("始まるぞ！！！");
 	gameInit();
 };

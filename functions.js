@@ -166,16 +166,22 @@ const drawAll = () => {
 
 //当たり判定
 
-//##############################	デバッグ情報	##############################
+//##############################	ゲームオーバーメッセージ	##############################
 const debugging = () => {
 	ctx.font = "15px Impact";
 	ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
 	if (gameOver) {
 		ctx.font = "30px Verdana";
-		let message = "GAME OVER";
+		ctx.fillStyle = "red";
+		let message1 = "GAME OVER";
+		let message2 = "push 'R' to one more!";
 		let x = canvas_w / 8;
 		let y = canvas_h / 4;
-		ctx.fillText(message, x, y);
+		ctx.fillText(message1, x, y);
+		x -= 50;
+		y += 40;
+		ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+		ctx.fillText(message2, x, y);
 	}
 
 	if (info && !gameOver) {

@@ -82,7 +82,8 @@ const enemyMoveYellow = (object) => {
 	}
 
 	if (!object.flag) {
-		if (rand(0, 3) == 1) {
+		//連射率を操作
+		if (rand(0, 4) == 1) {
 			object.flag = true;
 		}
 		enemyBullet(object, 1000);
@@ -92,4 +93,4 @@ const enemyMoveYellow = (object) => {
 	object.snum = ptn[(object.count >> 3) & 3];
 };
 
-let enemyFunctions = [enemyMovePink, enemyMoveYellow];
+let enemyFunctions = [enemyMovePink, enemyMoveYellow, enemyMoveYellow];
