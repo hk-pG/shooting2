@@ -38,6 +38,7 @@ const enemyBullet = (object, speed) => {
 	enemyShot.push(new EnemyShot(15, object.x, object.y, vx, vy));
 };
 
+//ピンクのヒヨコの行動パターン
 const enemyMovePink = (object) => {
 	if (!object.flag) {
 		if (player.x > object.x && object.vx < 120) {
@@ -66,6 +67,7 @@ const enemyMovePink = (object) => {
 	object.snum = ptn[(object.count >> 3) & 3];
 };
 
+//黄色のヒヨコの行動パターン
 const enemyMoveYellow = (object) => {
 	if (!object.flag) {
 		if (player.x > object.x && object.vx < 300) {

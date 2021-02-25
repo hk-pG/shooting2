@@ -137,11 +137,13 @@ const drawAll = () => {
 	vctx.fillRect(camera_x, camera_y, field_w, field_h);
 
 	drawObject(star);
-	drawObject(bullet);
-	drawObject(enemyShot);
 	drawObject(enemy);
 	drawObject(explosion);
+
+	//ゲームオーバー時に表示を消す
 	if (!gameOver) {
+		drawObject(enemyShot);
+		drawObject(bullet);
 		player.draw();
 	}
 
@@ -178,7 +180,7 @@ const debugging = () => {
 		let x = canvas_w / 8;
 		let y = canvas_h / 4;
 		ctx.fillText(message1, x, y);
-		x -= 50;
+		x -= 70;
 		y += 40;
 		ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
 		ctx.fillText(message2, x, y);

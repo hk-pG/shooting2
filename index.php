@@ -22,3 +22,6 @@
 		<script type="text/javascript" src="main.js"></script>
 	</body>
 </html>
+<?php
+	echo '<script>console.log("Hello World");</script>';
+?>
