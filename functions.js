@@ -3,10 +3,12 @@
 //キーボードが押された時
 document.onkeydown = (e) => {
 	key[e.keyCode] = true;
-	if (gameOver && e.keyCode == 82) {
+
+	if (gameOver && e.keyCode === 82) {
 		document.location.reload();
 	}
-	if (e.keyCode != 17 && e.keyCode != 82) {
+
+	if (e.keyCode !== 17 && e.keyCode !== 82 && e.keyCode !== 70) {
 		e.preventDefault();
 	}
 };
@@ -112,7 +114,10 @@ const isAttacked = (object) => {
 	if (player.hp < 0) {
 		gameOver = true;
 	} else {
-		object.kill = true;
+	    object.hp --;
+	    if (object.hp < 0) {
+			object.kill = true;
+		}
 		player.damage = 10;
 		player.stun = 60;
 	}
@@ -134,23 +139,41 @@ const updateAll = () => {
 const drawAll = () => {
 	//呼び出す度にフィールドを黒く塗りつぶす = フィールドをクリアする
 	vctx.fillStyle = player.damage ? "red" : "black";
-	vctx.fillRect(camera_x, camera_y, field_w, field_h);
+	vctx.fillRect(camera_x - 10, camera_y - 10, field_w, field_h);
 
 	drawObject(star);
-	drawObject(enemy);
-	drawObject(explosion);
 
 	//ゲームオーバー時に表示を消す
 	if (!gameOver) {
+		drawObject(explosion);
 		drawObject(enemyShot);
 		drawObject(bullet);
 		player.draw();
 	}
+	drawObject(enemy);
 
 	//　自機の範囲  0 ~ field_w
 	//カメラの範囲  0 ~ (field_w - screen_w)
 	camera_x = ((player.x >> 8) / field_w) * (field_w - screen_w);
 	camera_y = ((player.y >> 8) / field_h) * (field_h - screen_h);
+
+	//ボスのHPを表示
+    if (bossHp > 0) {
+        //HPバーのサイズ
+    	let size = (screen_w - 20) * bossHp / bossMhp;
+    	let maxSize = (screen_w - 20);
+
+    	//残りHPを表示
+    	vctx.fillStyle = "rgba(255, 0, 0, 0.8)";
+    	vctx.fillRect(camera_x + 10, camera_y + 10, size, 10);
+
+    	//バーの枠を表示
+    	vctx.strokeStyle = "yellow";
+    	vctx.strokeRect(camera_x + 10, camera_y + 10, size, 10);
+
+    	//最大HPを示す枠
+    	vctx.strokeRect(camera_x + 10, camera_y + 10, maxSize, 10);
+	}
 
 	//仮想画面から実際の画面にコピー
 	ctx.drawImage(
@@ -168,8 +191,8 @@ const drawAll = () => {
 
 //当たり判定
 
-//##############################	ゲームオーバーメッセージ	##############################
-const debugging = () => {
+//##############################	ゲームの情報を表示	 ##############################
+const information = () => {
 	ctx.font = "15px Impact";
 	ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
 	if (gameOver) {
@@ -195,7 +218,44 @@ const debugging = () => {
 		}
 
 		ctx.fillText(`HP : ${player.hp}`, 10, screen_h - 20);
-		ctx.fillText(`enemys : ${enemy.length}`, 10, screen_h - 40);
+		ctx.fillText(`X : ${player.x >> 8}, Y : ${player.y >> 8}`, 10, screen_h - 40);
+		ctx.fillText(`TIME : ${(gameTimer / 60).toFixed(2)}`, 10, screen_h - 80);
+
+
+		if (player.special) {
+			//特殊攻撃の残り時間バーのサイズ
+			let size = (screen_w / 4) * player.specialTime / player.specialMaxTime;
+			let maxSize = screen_w / 4;
+
+			//残り時間を表示
+			ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
+			ctx.fillRect(10, screen_h - 70, size, 10);
+
+			ctx.strokeStyle = "lime";
+			ctx.strokeRect(10, screen_h - 70, maxSize, 10);
+		} else if (!player.special) {
+			ctx.fillText(`SPECIAL : ${player.specialMagazine}`, 10, screen_h - 60);
+		}
 	}
 };
-// #############################################################################
+
+//試作関数 ###########################################################################
+
+//画面内のランダムな位置に座標をテレポートする
+const teleport = (object) => {
+	//最大値は、ビットシフトにより最適化する必要がある & 少し範囲を狭めて安全性を高める
+	object.x = rand(0, (field_w << 8) -100);
+	object.y = rand(0, (field_h << 8) -100);
+
+	//テレポート先の座標を確認
+	// console.log(`moved x : ${object.x >> 8}, y: ${object.y >> 8}`);
+}
+
+//画面内の指定範囲内のランダムな位置に座標をテレポートする
+const teleportCustom = (object, min_x, min_y) => {
+    object.x = rand(min_x, (field_w << 8) - min_x);
+    object.y = rand(min_y, (field_w << 8) - min_y);
+
+	//テレポート先の座標を確認
+	// console.log(`moved x : ${object.x >> 8}, y: ${object.y >> 8}`);
+}

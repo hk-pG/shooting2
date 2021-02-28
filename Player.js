@@ -4,7 +4,7 @@ class Player {
 	constructor() {
 		this.x = (field_w / 2) << 8;
 		this.y = (field_h - 50) << 8;
-		this.r = 10;
+		this.r = 5;
 		this.damage = 0;
 		this.speed = 1024; //256で１フレームに１ピクセル動く
 		this.anime = 0;
@@ -13,12 +13,47 @@ class Player {
 		this.stun = 0;
 		this.count = 0;
 		this.maxHp = 10;
-		this.hp = 5;
+		//自機HP
+		this.hp = 1000;
+
+		//自機の攻撃力
+		this.power = 1;
+
+		//特殊攻撃のon off
+		this.special = false;
+
+		//特殊攻撃の効果時間
+		this.specialTime = 0;
+
+		//特殊攻撃の回数上限
+		this.specialMagazine = 3;
+
+		//特殊攻撃の持続時間 (15秒)
+		this.specialMaxTime = 60 * 15;
 	}
 
 	//自機の移動
 	update() {
 		this.count++;
+
+		if (this.specialTime) {
+			this.specialTime --;
+		} else {
+			this.special = false;
+		}
+
+		if (key[70] && !this.special && this.specialMagazine) {
+			//特殊攻撃（広範囲弾）は１５秒まで
+		    this.special = true;
+		    this.specialTime = this.specialMaxTime;
+		    this.specialMagazine --;
+		}
+
+		if (key[16]) {
+			this.speed = 256;
+		} else if (this.speed !== 1024) {
+			this.speed = 1024;
+		}
 
 		if (this.damage) {
 			this.damage--;
@@ -27,13 +62,18 @@ class Player {
 		if (this.stun) {
 			this.stun--;
 		}
-		if (key[32] && this.reload == 0) {
+		if (key[32] && this.reload === 0) {
 			bullet.push(new Bullet(this.x + (4 << 8), this.y, 0, -2000));
 			bullet.push(new Bullet(this.x - (4 << 8), this.y, 0, -2000));
 
-			//真横に発射
-			// bullet.push(new Bullet(this.x, this.y, 2000, 0));
-			// bullet.push(new Bullet(this.x, this.y, -2000, 0));
+			if (this.special) {
+				//斜めに発射
+				bullet.push(new Bullet(this.x, this.y, 500, -2000));
+				bullet.push(new Bullet(this.x, this.y, -500, -2000));
+
+				bullet.push(new Bullet(this.x, this.y, 200, -2000));
+				bullet.push(new Bullet(this.x, this.y, -200, -2000));
+			}
 
 			this.reload = 5; //60で約１秒間に一回発射できる
 			this.magazine++;

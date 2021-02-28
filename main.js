@@ -23,7 +23,6 @@ const field_w = screen_w + 120;
 const field_h = screen_h + 120;
 
 //キャンバス
-const body = document.querySelector("body");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = canvas_w;
@@ -61,8 +60,22 @@ let key = [];
 //銃弾
 let bullet = [];
 
+//敵キャラの種類
+let enemyMaster = [
+	new EnemyMaster(0, 10, 1,100),//ピンクのヒヨコ
+	new EnemyMaster(1, 10, 1, 100),//黄色のヒヨコ
+	new EnemyMaster(2, 70, 1000, 10000),//ボスヒヨコ（黄色）
+	new EnemyMaster(3, 15, 5, 10),//ボスヒヨコ（黄色）の子供
+];
+
 //敵キャラ
 let enemy = [];
+
+//ボスの体力の最大値
+let bossMhp = 0;
+let bossHp = 0;
+//敵キャラの割合
+let enemyRate = [0, 1];
 
 //敵の攻撃
 let enemyShot = [];
@@ -79,6 +92,15 @@ const gameSpeed = 1000 / 60;
 //ゲームオーバーフラグ
 let gameOver = false;
 
+//ゲーム全体の経過フレーム
+let gameTimer = 0;
+
+//ゲームのカウント（経過フレームをウェイブ毎に持つ）
+let gameCount = 0;
+
+//ゲームのウェイブ（段階）
+let gameWave = 0;
+
 //スコア
 let score = 0;
 
@@ -92,27 +114,87 @@ const gameInit = () => {
 
 	//ゲームループ
 	const gameLoop = () => {
-		if (rand(0, 30) === 1) {
-			enemy.push(
-				new Enemy(
-					rand(0, 2),
-					rand(0, field_w) << 8,
-					0,
-					0,
-					rand(300, 1200)
-				)
-			);
+		gameTimer ++;
+	    gameCount ++;
+	    //敵を出現
+		if (gameWave === 0) {
+			if (rand(0, 30) === 1) {
+				enemy.push(
+					new Enemy(
+					    //ピンクのヒヨコだけを出す
+						0,
+						rand(0, field_w) << 8,
+						0,
+						0,
+						rand(300, 1200)
+					)
+				);
+			}
+
+			if (gameCount > 60 * 30) {
+			    //２０秒経過したらウェーブを１段階上げる
+				gameWave ++;
+				gameCount = 0;
+			}
+		} else if (gameWave === 1) {
+			if (rand(0, 30) === 1) {
+				enemy.push(
+					new Enemy(
+						// enemyRate[rand(0, 1)],
+						//黄色のヒヨコだけを出す
+						1,
+						rand(0, field_w) << 8,
+						0,
+						0,
+						rand(300, 1200)
+					)
+				);
+			}
+
+			if (gameCount > 60 * 20) {
+				//２０秒経過したらウェーブを１段階上げる
+				gameWave ++;
+				gameCount = 0;
+			}
+		} else if (gameWave === 2) {
+			if (rand(0, 20) === 1) {
+				enemy.push(
+				    new Enemy(
+				    	rand(0, 1),
+						rand(0, field_w) << 8,
+						0,
+						0,
+						rand(300, 1200)
+					)
+				);
+			}
+
+			if (gameCount > 60 * 30) {
+				//30秒経過したらウェーブを１段階上げる
+				gameWave ++;
+				gameCount = 0;
+			}
+		} else if (gameWave === 3) {
+			gameCount ++;
+
+			if (gameCount === 60 * 5) {
+				// ボスキャラ出現
+				enemy.push(new Enemy(2, (field_w / 2) << 8, 0, 0, 200));
+			}
 		}
+
 		updateAll();
 		drawAll();
-		debugging();
+		information();
 	};
 
+	//ゲームループ呼び出し
 	setInterval(gameLoop, gameSpeed);
 };
 
 //オンロード時にゲームを開始
 window.onload = function () {
+    //alertは「OK」が押されるまで、次の処理を待機できる。
 	alert("矢印キーで移動、");
 	alert("スペースで射撃だ！");
 	alert("始まるぞ！！！");

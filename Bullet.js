@@ -14,20 +14,35 @@ class Bullet extends Character {
 				if (
 					checkHit(this.x, this.y, this.r, enemy[i].x, enemy[i].y, enemy[i].r)
 				) {
-					enemy[i].kill = true;
+					//もし敵にあたっていたら、自機の弾を消す
 					this.kill = true;
 
-					//爆発エフェクト
-					moreExplosion(
-						enemy[i].x,
-						enemy[i].y,
+					//敵の hp を減らす
+					enemy[i].hp -= player.power;
+
+					//もし敵の hp が０以下ならば、死亡判定をする
+					if (enemy[i].hp <= 0) {
+						enemy[i].kill = true;
+						score += enemy[i].score;
+						//爆発エフェクト
+						moreExplosion(
+							enemy[i].x,
+							enemy[i].y,
 						enemy[i].vx >> 3,
 						enemy[i].vy >> 3
-					);
+						);
+					} else {
+						explosion.push(new Explosion(0, this.x, this.y, 0, 0));
+					}
 
+					if (enemy[i].maxHp >= 1000) {
+						bossHp = enemy[i].hp;
+						bossMhp = enemy[i].maxHp;
+					}
 					break;
 				}
 			}
+
 		}
 	}
 

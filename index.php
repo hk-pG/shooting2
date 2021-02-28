@@ -15,8 +15,10 @@
 		<script type="text/javascript" src="Character.js"></script>
 		<script type="text/javascript" src="Explosion.js"></script>
 		<script type="text/javascript" src="Bullet.js"></script>
+        <script type="text/javascript" src="enemyFunctions.js"></script>
 		<script type="text/javascript" src="Enemy.js"></script>
 		<script type="text/javascript" src="EnemyShot.js"></script>
+        <script type="text/javascript" src="EnemyMaster.js"></script>
 		<script type="text/javascript" src="Player.js"></script>
 		<script type="text/javascript" src="spritesInit.js"></script>
 		<script type="text/javascript" src="main.js"></script>
