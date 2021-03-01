@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 class Player {
 	constructor() {
@@ -14,7 +14,7 @@ class Player {
 		this.count = 0;
 		this.maxHp = 10;
 		//自機HP
-		this.hp = 1000;
+		this.hp = 10;
 
 		//自機の攻撃力
 		this.power = 1;
@@ -37,16 +37,16 @@ class Player {
 		this.count++;
 
 		if (this.specialTime) {
-			this.specialTime --;
+			this.specialTime--;
 		} else {
 			this.special = false;
 		}
 
 		if (key[70] && !this.special && this.specialMagazine) {
 			//特殊攻撃（広範囲弾）は１５秒まで
-		    this.special = true;
-		    this.specialTime = this.specialMaxTime;
-		    this.specialMagazine --;
+			this.special = true;
+			this.specialTime = this.specialMaxTime;
+			this.specialMagazine--;
 		}
 
 		if (key[16]) {

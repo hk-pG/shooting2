@@ -19,13 +19,15 @@ class Star {
 			y >= camera_y + screen_h
 		)
 			return;
-		vctx.fillStyle = rand(0, 2) != 0 ? "#66f" : "#aef";
+		vctx.fillStyle = rand(0, 2) !== 0 ? "#66f" : "#aef";
 		vctx.fillRect(this.x >> 8, this.y >> 8, this.sz, this.sz);
 	}
 
 	update() {
-		this.x += this.vx;
-		this.y += this.vy;
+		//星の速度の倍率
+		let starSpeedPercentage = starSpeed / 100;
+		this.x += this.vx * starSpeedPercentage;
+		this.y += this.vy * starSpeedPercentage;
 		if (this.y > field_h << 8) {
 			this.y = 0;
 			this.x = rand(0, field_w) << 8;

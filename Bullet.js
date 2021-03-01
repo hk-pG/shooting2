@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 class Bullet extends Character {
 	constructor(x, y, vx, vy) {
@@ -23,13 +23,17 @@ class Bullet extends Character {
 					//もし敵の hp が０以下ならば、死亡判定をする
 					if (enemy[i].hp <= 0) {
 						enemy[i].kill = true;
-						score += enemy[i].score;
+						scoreView += enemy[i].score;
+
+						//スコアを加算していく
+						//スコアをサーバに渡す処理
+
 						//爆発エフェクト
 						moreExplosion(
 							enemy[i].x,
 							enemy[i].y,
-						enemy[i].vx >> 3,
-						enemy[i].vy >> 3
+							enemy[i].vx >> 3,
+							enemy[i].vy >> 3
 						);
 					} else {
 						explosion.push(new Explosion(0, this.x, this.y, 0, 0));
@@ -42,7 +46,6 @@ class Bullet extends Character {
 					break;
 				}
 			}
-
 		}
 	}
 
