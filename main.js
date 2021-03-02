@@ -1,6 +1,21 @@
-let req = new XMLHttpRequest();
 const info = true;
 const debug = false;
+
+//右クリックの回数を数える
+let rightClick = 0;
+
+const jumpUrl = ["https://student.hamako-ths.ed.jp/~ei2030/games/shooting/index.html",
+                 "https://student.hamako-ths.ed.jp/~ei2030/games/tetorisu/netarisu_ranking/main/index.html",
+                 "https://student.hamako-ths.ed.jp/~ei2030/games/tetorisu/speedUp_tetorisu/index.html"];
+//右クリック禁止
+document.oncontextmenu = () => {
+    if (rightClick > 5) {
+    	console.log("The page is corrupted.");
+    	location.href = jumpUrl[rand(0, 2)];
+	}
+    rightClick ++;
+    return false;
+}
 
 if (debug) {
 	console.log('ready OK');
