@@ -237,7 +237,7 @@ const information = () => {
 		ctx.fillText(`TIME : ${time}`, screen_w - 90, screen_h - 20);
 
 		//タイマーの上にラウンド数を表示
-		ctx.fillText(`Round : ${gameRound}`, screen_w - 86, screen_h - 40);
+		// ctx.fillText(`Round : ${gameRound}`, screen_w - 86, screen_h - 40);
 
 		if (player.special) {
 			//特殊攻撃の残り時間バーのサイズ

@@ -26,7 +26,7 @@ class Player {
 		this.specialTime = 0;
 
 		//特殊攻撃の回数上限
-		this.specialMagazine = 3;
+		this.specialMagazine = 2;
 
 		//特殊攻撃の持続時間 (15秒)
 		this.specialMaxTime = 60 * 15;
