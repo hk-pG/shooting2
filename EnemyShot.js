@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 class EnemyShot extends Character {
 	constructor(snum, x, y, vx, vy, timer) {
@@ -6,13 +6,13 @@ class EnemyShot extends Character {
 		this.r = 4;
 		if (timer === undefined) {
 			this.timer = 0;
-		}else {
-			this.timer = timer
+		} else {
+			this.timer = timer;
 		}
 	}
 	update() {
 		if (this.timer) {
-			this.timer --;
+			this.timer--;
 			return;
 		}
 		super.update();
@@ -20,7 +20,9 @@ class EnemyShot extends Character {
 			!player.stun &&
 			checkHit(this.x, this.y, this.r, player.x, player.y, player.r)
 		) {
-			isAttacked(this);
+			if (!gameClear) {
+				isAttacked(this);
+			}
 		}
 
 		this.snum = 14 + ((this.count >> 3) & 1);

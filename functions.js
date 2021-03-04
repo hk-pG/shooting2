@@ -208,6 +208,7 @@ const information = () => {
 		ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
 		ctx.fillText(message2, x, y);
 	} else if (gameClear) {
+		//ゲームクリア時のメッセージ
 		ctx.font = '30px Verdana';
 		ctx.fillStyle = 'Yellow';
 		let message1 = 'GAME CLEAR';
@@ -221,6 +222,7 @@ const information = () => {
 		let time = (gameTimer / 60).toFixed(2);
 		ctx.fillText(`TIME  : ${time} s`, x, y);
 		ctx.fillText(`SCORE : ${scoreView}`, x, y + 20);
+		ctx.fillText(`HP  : ${player.hp}`, x, y + 40);
 	} else {
 		drawCount++;
 		if (lastTime + 1000 <= Date.now()) {
