@@ -247,8 +247,8 @@ window.onload = function () {
 	//alertは「OK」が押されるまで、次の処理を待機できる。
 	alert('矢印キーで移動、');
 	alert('スペースで射撃だ！');
-  alert('SHIFTキーで減速できるぞ！');
-  alert('Fキーを押すと...?');
+	alert('SHIFTキーで減速できるぞ！');
+	alert('Fキーを押すと...?');
 	alert('始まるぞ！！！');
 	gameInit();
 };
